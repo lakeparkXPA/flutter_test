@@ -1,5 +1,5 @@
 # instagram_test
-fake instagram making project
+Fake instagram making project
 
 # learning Flutter
 Learning flutter for making app.
