@@ -11,7 +11,12 @@ void main() {
       MaterialApp(
         //스타일 테그로 다 넣을 수 있는거랑 비슷
         theme: themedata.theme,
-          home: MyApp()
+          // initialRoute: '/', //페이지 많으면 routes 사용
+          // routes: {
+          //   '/' : (c) => Text('첫페이지'),
+          //   '/detail': (c) => Text('둘째페이지'),
+          // },
+        home: MyApp()
       )
   );
 }
@@ -100,7 +105,12 @@ class _MyAppState extends State<MyApp> {
               icon: Icon(Icons.favorite_border_outlined),
             ),
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                // Navigation : 기존 페이지 위에 새로운 페이지 올리기, 계속 올리기 가능 (stack 식)
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (c) => Upload() ) //중괄호 안에 return 중괄호만 있으면 오른쪽과 같이 사용 가능
+                    );
+              },
               icon: Icon(CupertinoIcons.paperplane),
             ),
           ]
@@ -115,7 +125,8 @@ class _MyAppState extends State<MyApp> {
             photoUrl: photoUrl,
             postList: postList,
         ),
-        Text('검색')
+        Text('검색'),
+
       ][tab],
       bottomNavigationBar: BottomNavigationBar(
         showSelectedLabels: false,
@@ -145,7 +156,7 @@ class _MyAppState extends State<MyApp> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.add_box_outlined),
-            label: 'post'
+            label: 'post',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.movie_outlined),
@@ -162,3 +173,32 @@ class _MyAppState extends State<MyApp> {
   }
 }
 
+
+class Upload extends StatelessWidget {
+  const Upload({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        // title: Icon(Icons.arrow_back),
+        // centerTitle: false,
+        backgroundColor: Colors.white,
+        iconTheme: IconThemeData(
+            color: Colors.black
+        ),
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('이미지 업로드 화면 '),
+          IconButton(
+              onPressed: (){
+                Navigator.pop(context); //context 는 material app 의 context
+              },
+              icon: Icon(Icons.close))
+        ],
+      ),
+    );
+  }
+}
