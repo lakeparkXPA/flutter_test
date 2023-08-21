@@ -1,10 +1,15 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'themedata_plus.dart' as themedata;
-import 'home.dart' as home;
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter/rendering.dart'; //스크롤 높이 다룰 때 씀
+import 'package:image_picker/image_picker.dart';
+
+import 'themedata_plus.dart' as themedata;
+import 'home.dart' as home;
+import 'upload.dart' as upload;
 
 void main() {
   runApp(
@@ -34,8 +39,30 @@ class _MyAppState extends State<MyApp> {
   var data = [];
   int getNum = 0;
   var url;
-  var photoUrl = ['go_home.jpeg', 'bed_good.jpeg', 'no_taste.jpeg'];
-  var postList = ['집에 가고 싶다', '따뜻한 이불속이 최고야', '요즘 입맛이 없어'];
+  var postDict = [
+    {
+      "id": 1,
+      "photo": 'go_home.jpeg',
+      "content": '집에 가고 싶다',
+      "likes": 5,
+    },
+    {
+      "id": 2,
+      "photo": 'bed_good.jpeg',
+      "content": '따뜻한 이불속이 최고야',
+      "likes": 22,
+    },
+    {
+      "id": 3,
+      "photo": 'no_taste.jpeg',
+      "content": '요즘 입맛이 없어',
+      "likes": 10,
+    }
+  ];
+  // var photoUrl = ['go_home.jpeg', 'bed_good.jpeg', 'no_taste.jpeg'];
+  // var postList = ['집에 가고 싶다', '따뜻한 이불속이 최고야', '요즘 입맛이 없어'];
+
+  var userImage;
 
   getData() async{
     var result = await http.get(Uri.parse('https://codingapple1.github.io/app/data.json'));
@@ -53,23 +80,42 @@ class _MyAppState extends State<MyApp> {
     }
 
   }
+  addPost(String content, File photo){
+    var pTmp = {
+      "id": postDict.length + 1,
+      "content": content,
+      "photo" : photo,
+      "likes" : 0,
+    };
+    postDict.add(pTmp);
+
+    data.add(123);
+  }
   addMore() async{
     getNum++;
     if (getNum <= 2){
       if (getNum==1) {
         url = 'https://codingapple1.github.io/app/more1.json';
-        photoUrl.add('iloveu.jpeg');
-        postList.add('널 좋아해');
+        var tmp = {
+          "id": postDict.length + 1,
+          "photo": 'iloveu.jpeg',
+          "content": '널 좋아해',
+          "likes": 12,
+        };
+        postDict.add(tmp);
       } else {
         url = 'https://codingapple1.github.io/app/more2.json';
-        photoUrl.add('hug.jpeg');
-        postList.add('꼬옥 안아줄게');
+        var tmp = {
+          "id": postDict.length + 1,
+          "photo": 'hug.jpeg',
+          "content": '꼬옥 안아줄게',
+          "likes": 29,
+        };
+        postDict.add(tmp);
       }
       var result = await http.get(Uri.parse(url));
       var result2 = jsonDecode(result.body);
-      setState(() {
-        data.add(result2);
-      });
+      data.add(result2);
     }
 
 
@@ -105,11 +151,22 @@ class _MyAppState extends State<MyApp> {
               icon: Icon(Icons.favorite_border_outlined),
             ),
             IconButton(
-              onPressed: () {
+              onPressed: () async {
                 // Navigation : 기존 페이지 위에 새로운 페이지 올리기, 계속 올리기 가능 (stack 식)
+                var picker = ImagePicker();
+                var image = await picker.pickImage(source: ImageSource.gallery);
+                // image 여러개 선책은 pickMultiImage() 사용
+                if (image != null) {
+                  setState(() {
+                    userImage = File(image.path);
+                  });
+                }
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (c) => Upload() ) //중괄호 안에 return 중괄호만 있으면 오른쪽과 같이 사용 가능
-                    );
+                    MaterialPageRoute(builder: (c) => upload.Upload(
+                      image: userImage,
+                      addPost: addPost,
+                    )) //중괄호 안에 return 중괄호만 있으면 오른쪽과 같이 사용 가능
+                );
               },
               icon: Icon(CupertinoIcons.paperplane),
             ),
@@ -122,8 +179,9 @@ class _MyAppState extends State<MyApp> {
             postResult: data,
             addMore: addMore,
             getNum: getNum,
-            photoUrl: photoUrl,
-            postList: postList,
+            postDict: postDict,
+            // photoUrl: photoUrl,
+            // postList: postList,
         ),
         Text('검색'),
 
@@ -170,35 +228,5 @@ class _MyAppState extends State<MyApp> {
       ),
     );
 
-  }
-}
-
-
-class Upload extends StatelessWidget {
-  const Upload({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        // title: Icon(Icons.arrow_back),
-        // centerTitle: false,
-        backgroundColor: Colors.white,
-        iconTheme: IconThemeData(
-            color: Colors.black
-        ),
-      ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text('이미지 업로드 화면 '),
-          IconButton(
-              onPressed: (){
-                Navigator.pop(context); //context 는 material app 의 context
-              },
-              icon: Icon(Icons.close))
-        ],
-      ),
-    );
   }
 }

@@ -6,14 +6,16 @@ class HomeTab extends StatefulWidget {
     this.postResult,
     this.addMore,
     this.getNum,
-    this.photoUrl,
-    this.postList,
+    // this.photoUrl,
+    // this.postList,
+    this.postDict,
   });
   final postResult;
   final addMore;
   final getNum;
-  final photoUrl;
-  final postList;
+  // final photoUrl;
+  // final postList;
+  final postDict;
 
 
   @override
@@ -24,9 +26,7 @@ class _HomeTabState extends State<HomeTab> {
   var scroll = ScrollController();
 
 
-
-
-  getMore() async {
+  getMore() {
       setState(() {
         widget.addMore();
       });
@@ -44,9 +44,6 @@ class _HomeTabState extends State<HomeTab> {
       // scroll.position.maxScrollExtent 스크롤바 최대 내릴 수 있는 높이
       // scroll.position.userScrollDirection 유저가 어느 방향으로 스크롤 하는지 확인 가능
       if (scroll.position.pixels == scroll.position.maxScrollExtent) {
-
-
-
         getMore();
       }
     });
@@ -76,9 +73,9 @@ class _HomeTabState extends State<HomeTab> {
         controller: scroll, // 스크롤바 높이 측정
         itemBuilder: (content, index){
           return FeedView(
-              photo: widget.photoUrl[index],
-              postText: widget.postList[index],
-              like: widget.postResult[index]['likes']
+              photo: widget.postDict[index]['photo'],
+              postText: widget.postDict[index]['content'],
+              like: widget.postDict[index]['likes']
           );
 
         },
@@ -141,9 +138,13 @@ class FeedView extends StatelessWidget {
                 ],
               )
           ),
-          FractionallySizedBox(
+          if(photo.runtimeType != 'File') FractionallySizedBox(
             widthFactor: 1,
             child: Image.asset('assets/$photo',),
+          ),
+          if(photo.runtimeType == 'File') FractionallySizedBox(
+            widthFactor: 1,
+            child: Image.file(photo),
           ),
           Container(
             child: Row(
