@@ -138,11 +138,11 @@ class FeedView extends StatelessWidget {
                 ],
               )
           ),
-          if(photo.runtimeType != 'File') FractionallySizedBox(
+          if(photo.runtimeType.toString() != '_File') FractionallySizedBox(
             widthFactor: 1,
             child: Image.asset('assets/$photo',),
           ),
-          if(photo.runtimeType == 'File') FractionallySizedBox(
+          if(photo.runtimeType.toString() == '_File') FractionallySizedBox(
             widthFactor: 1,
             child: Image.file(photo),
           ),
