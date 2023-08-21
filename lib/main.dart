@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter/rendering.dart'; //스크롤 높이 다룰 때 씀
 import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'themedata_plus.dart' as themedata;
 import 'home.dart' as home;
@@ -63,6 +64,10 @@ class _MyAppState extends State<MyApp> {
   // var postList = ['집에 가고 싶다', '따뜻한 이불속이 최고야', '요즘 입맛이 없어'];
 
   var userImage;
+
+  saveData() async {
+    var storgage = await SharedPreferences.getInstance();
+  }
 
   getData() async{
     var result = await http.get(Uri.parse('https://codingapple1.github.io/app/data.json'));
