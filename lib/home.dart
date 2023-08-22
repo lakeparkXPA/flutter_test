@@ -132,7 +132,9 @@ class FeedView extends StatelessWidget {
                               Navigator.push(
                                   context,
                                   PageRouteBuilder(
-                                      pageBuilder: (c, a1, a2) => Profile()
+                                      pageBuilder: (c, a1, a2) => Profile(),
+                                      transitionsBuilder: (c, a1, a2, child) =>
+                                      FadeTransition(opacity: a1, child: child)
                                   )
                               );
                             },
