@@ -7,6 +7,7 @@ import 'dart:convert';
 import 'package:flutter/rendering.dart'; //스크롤 높이 다룰 때 씀
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
 
 import 'themedata_plus.dart' as themedata;
 import 'home.dart' as home;
@@ -14,18 +15,26 @@ import 'upload.dart' as upload;
 
 void main() {
   runApp(
-      MaterialApp(
-        //스타일 테그로 다 넣을 수 있는거랑 비슷
-        theme: themedata.theme,
-          // initialRoute: '/', //페이지 많으면 routes 사용
-          // routes: {
-          //   '/' : (c) => Text('첫페이지'),
-          //   '/detail': (c) => Text('둘째페이지'),
-          // },
-        home: MyApp()
+      ChangeNotifierProvider(
+        create: (c) => StoreProvider(),
+        child: MaterialApp(
+          //스타일 테그로 다 넣을 수 있는거랑 비슷
+          theme: themedata.theme,
+            // initialRoute: '/', //페이지 많으면 routes 사용
+            // routes: {
+            //   '/' : (c) => Text('첫페이지'),
+            //   '/detail': (c) => Text('둘째페이지'),
+            // },
+          home: MyApp()
+        ),
       )
   );
 }
+
+class StoreProvider extends ChangeNotifier {
+  var name = 'ogu_official';
+}
+
 var a = TextStyle();
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
