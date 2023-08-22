@@ -16,7 +16,7 @@ import 'upload.dart' as upload;
 void main() {
   runApp(
       ChangeNotifierProvider(
-        create: (c) => StoreProvider(),
+        create: (c) => home.StoreProvider(),
         child: MaterialApp(
           //스타일 테그로 다 넣을 수 있는거랑 비슷
           theme: themedata.theme,
@@ -31,9 +31,6 @@ void main() {
   );
 }
 
-class StoreProvider extends ChangeNotifier {
-  var name = 'ogu_official';
-}
 
 var a = TextStyle();
 class MyApp extends StatefulWidget {

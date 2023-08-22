@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 
 class HomeTab extends StatefulWidget {
   HomeTab({super.key,
@@ -252,7 +254,9 @@ class MyClipper extends CustomClipper<Rect>{
   }
 }
 
-
+class StoreProvider extends ChangeNotifier {
+  var name = 'ogu_official';
+}
 
 
 class Profile extends StatelessWidget {
@@ -261,7 +265,7 @@ class Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(title: Text(context.watch<StoreProvider>().name,)),
       body: Text('프로필 페이지'),
     );
   }
