@@ -256,6 +256,10 @@ class MyClipper extends CustomClipper<Rect>{
 
 class StoreProvider extends ChangeNotifier {
   var name = 'ogu_official';
+  changeName(String rename) { // 미리 만들어놔야 변환 가능
+    name = rename;
+    notifyListeners(); //set state 와 간음, 재 랜더링
+  }
 }
 
 
@@ -265,8 +269,20 @@ class Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(context.watch<StoreProvider>().name,)),
-      body: Text('프로필 페이지'),
+      appBar: AppBar(
+          title: Text(context.watch<StoreProvider>().name,),
+        titleTextStyle: TextStyle(color: Colors.black),
+      ),
+      body: Column(
+        children: [
+          ElevatedButton(
+              onPressed: (){
+                context.read<StoreProvider>().changeName('ogu_fanpage');
+              },
+              child: Text('버튼')
+          )
+        ],
+      ),
     );
   }
 }
