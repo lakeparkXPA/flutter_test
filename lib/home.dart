@@ -123,10 +123,20 @@ class FeedView extends StatelessWidget {
                         ),
                         Padding(
                           padding: const EdgeInsets.all(10),
-                          child: Text('ogu_official',style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 17,),
-                          ),
+                          child: GestureDetector(
+                            child: Text('ogu_official',style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 17,),
+                            ),
+                            onTap: (){
+                              Navigator.push(
+                                  context, 
+                                  MaterialPageRoute(
+                                      builder: (c) => Profile()
+                                  )
+                              );
+                            },
+                          )
                         ),
                       ],
                     ),
@@ -224,5 +234,18 @@ class MyClipper extends CustomClipper<Rect>{
   bool shouldReclip(CustomClipper<Rect> oldClipper) {
     return true;
 
+  }
+}
+
+
+class Profile extends StatelessWidget {
+  const Profile({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(),
+      body: Text('프로필 페이지'),
+    );
   }
 }

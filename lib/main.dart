@@ -65,8 +65,20 @@ class _MyAppState extends State<MyApp> {
 
   var userImage;
 
-  saveData() async {
-    var storgage = await SharedPreferences.getInstance();
+  saveData(String tmpString) async {
+    var storage = await SharedPreferences.getInstance();
+    storage.setString('name', tmpString); // 저장
+    var result = storage.getString('name'); // string 출력
+    print(result);
+    storage.remove('name');
+
+    var map = {'age': 20};
+    storage.setString('map', jsonEncode(map));
+    var mapResult = storage.getString('map') ?? 'null'; // object? 에러 발생시 null check
+    print(mapResult);
+    print(jsonDecode(mapResult)['age']);
+    // 이미지는 저장 불가능 -> cached_network_image 사용
+
   }
 
   getData() async{
@@ -131,6 +143,7 @@ class _MyAppState extends State<MyApp> {
   void initState(){
     super.initState();
     getData();
+    saveData('lakeparkxpa');
 
   }
 
