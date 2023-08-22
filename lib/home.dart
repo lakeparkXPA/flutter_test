@@ -131,8 +131,8 @@ class FeedView extends StatelessWidget {
                             onTap: (){
                               Navigator.push(
                                   context,
-                                  CupertinoPageRoute(
-                                      builder: (c) => Profile()
+                                  PageRouteBuilder(
+                                      pageBuilder: (c, a1, a2) => Profile()
                                   )
                               );
                             },
