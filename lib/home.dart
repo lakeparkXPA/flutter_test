@@ -130,8 +130,8 @@ class FeedView extends StatelessWidget {
                             ),
                             onTap: (){
                               Navigator.push(
-                                  context, 
-                                  MaterialPageRoute(
+                                  context,
+                                  CupertinoPageRoute(
                                       builder: (c) => Profile()
                                   )
                               );
