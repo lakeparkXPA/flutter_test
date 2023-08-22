@@ -134,7 +134,7 @@ class FeedView extends StatelessWidget {
                               Navigator.push(
                                   context,
                                   PageRouteBuilder(
-                                      pageBuilder: (c, a1, a2) => Profile(),
+                                      pageBuilder: (c, a1, a2) => Profile(name: 'ogu_official',),
                                       transitionsBuilder: (c, a1, a2, child) =>
                                           // SlideTransition(
                                           //     position: Tween(
@@ -255,33 +255,85 @@ class MyClipper extends CustomClipper<Rect>{
 }
 
 class StoreProvider extends ChangeNotifier {
-  var name = 'ogu_official';
-  changeName(String rename) { // 미리 만들어놔야 변환 가능
-    name = rename;
+  var follower = 0;
+  var followerButton = '팔로우';
+  follow() { // 미리 만들어놔야 변환 가능
+    follower += 1;
+    followerButton = '언팔로우';
     notifyListeners(); //set state 와 간음, 재 랜더링
+  }
+  unfollow() {
+    follower -= 1;
+    followerButton = '팔로우';
+    notifyListeners();
   }
 }
 
 
 class Profile extends StatelessWidget {
-  const Profile({super.key});
+  const Profile({super.key, this.name});
+  final name;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-          title: Text(context.watch<StoreProvider>().name,),
-        titleTextStyle: TextStyle(color: Colors.black),
-      ),
-      body: Column(
-        children: [
-          ElevatedButton(
-              onPressed: (){
-                context.read<StoreProvider>().changeName('ogu_fanpage');
-              },
-              child: Text('버튼')
+    return ChangeNotifierProvider(
+      create: (c) => StoreProvider(),
+      child: Consumer<StoreProvider>(
+        builder: (context, value, child) =>
+          Scaffold(
+            appBar: AppBar(
+              title: Text(name),
+              titleTextStyle: TextStyle(color: Colors.black),
+              iconTheme: IconThemeData(
+                  color: Colors.black
+              ),
+            ),
+            body: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                ClipOval(
+                    clipper: MyClipper(),
+                    child: SizedBox.fromSize(
+                      // Image.network <- 웹상 이미지 가져옴
+                        child: Image.asset('assets/oh.jpeg',width: 60,height: 60,)
+                    )
+                ),
+                Row(
+                  children: [
+                    Text('팔로워 '),
+                    Text(value.follower.toString()),
+                    Text('명'),
+                  ],
+                ),
+                if (context.watch<StoreProvider>().followerButton == '팔로우')
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ElevatedButton(
+                    onPressed: (){
+                      context.read<StoreProvider>().follow();
+                    },
+                    child: Text(context.watch<StoreProvider>().followerButton),
+
+                  ),
+                ),
+                if (context.watch<StoreProvider>().followerButton == '언팔로우')
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(backgroundColor: Colors.blueGrey,// Background color
+                      ),
+                      onPressed: (){
+                        context.read<StoreProvider>().unfollow();
+                      },
+                      child: Text(context.watch<StoreProvider>().followerButton),
+
+                    ),
+                  ),
+              ],
+            ),
           )
-        ],
+
       ),
     );
   }
