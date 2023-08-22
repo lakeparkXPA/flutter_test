@@ -134,8 +134,15 @@ class FeedView extends StatelessWidget {
                                   PageRouteBuilder(
                                       pageBuilder: (c, a1, a2) => Profile(),
                                       transitionsBuilder: (c, a1, a2, child) =>
-                                          FadeTransition(opacity: a1, child: child),
-                                      transitionDuration: Duration(microseconds: 5000)
+                                          SlideTransition(
+                                              position: Tween(
+                                                begin: Offset(2.0, 1.0), // 시작 좌표
+                                                end: Offset(0.0, 0.0), // 최종 좌표
+                                              ).animate(a1),
+                                            child: child,
+                                          ),
+                                          // FadeTransition(opacity: a1, child: child),
+                                      // transitionDuration: Duration(microseconds: 5000)
                                       // 전환 속도 조절 가능
                                   ) // child = Profile
                                 // a1 = animation object 페이지 얼마나 전환 됐는지 0~1 사이값으로 변함
