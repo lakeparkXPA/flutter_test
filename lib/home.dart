@@ -292,7 +292,7 @@ class Profile extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                ClipOval(
+                ClipOval( //circleavatar 넣으면 동그란 원 만들 수 있음
                     clipper: MyClipper(),
                     child: SizedBox.fromSize(
                       // Image.network <- 웹상 이미지 가져옴
