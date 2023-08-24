@@ -301,8 +301,8 @@ class Profile extends StatelessWidget {
                 ),
                 Row(
                   children: [
-                    Text('팔로워 '),
-                    Text(value.follower.toString()),
+                    Text('팔로워 ${context.watch<StoreProvider>().follower}'),
+                    // Text(value.follower.toString()),
                     Text('명'),
                   ],
                 ),
