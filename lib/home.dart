@@ -269,6 +269,10 @@ class StoreProvider extends ChangeNotifier {
   }
 }
 
+class StoreProvider2 extends ChangeNotifier {
+
+}
+
 
 class Profile extends StatelessWidget {
   const Profile({super.key, this.name});
@@ -276,8 +280,11 @@ class Profile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (c) => StoreProvider(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (c) => StoreProvider()),
+        ChangeNotifierProvider(create: (c) => StoreProvider2()),
+      ],
       child: Consumer<StoreProvider>(
         builder: (context, value, child) =>
           Scaffold(
