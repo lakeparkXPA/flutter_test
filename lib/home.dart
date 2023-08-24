@@ -321,7 +321,7 @@ class Profile extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(backgroundColor: Colors.blueGrey,// Background color
+                      style: ElevatedButton.styleFrom(backgroundColor: Colors.grey,// Background color
                       ),
                       onPressed: (){
                         context.read<StoreProvider>().unfollow();
