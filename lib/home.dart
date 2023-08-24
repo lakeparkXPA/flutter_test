@@ -1,7 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+import 'package:http/http.dart' as http;
 
 class HomeTab extends StatefulWidget {
   HomeTab({super.key,
@@ -270,6 +272,12 @@ class StoreProvider extends ChangeNotifier {
 }
 
 class StoreProvider2 extends ChangeNotifier {
+  var profileImage = [];
+  getData() async { // get 요청의 경우 함수로 만들어서 사용하면 가능
+    var result = await http.get(Uri.parse('https://codingapple1.github.io/app/profile.json'));
+    profileImage = jsonDecode(result.body);
+    notifyListeners();
+  }
 
 }
 
